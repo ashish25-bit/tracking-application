@@ -1,8 +1,13 @@
-import './App.css';
+import Category from './components/Category';
+import Header from './components/Header';
+import HeaderActionButtons from './components/HeaderActionButtons';
 
 function App() {
   return (
-    <div>Tracking application</div>
+    <div className='main-container'>
+      <Header />
+      <HeaderActionButtons />
+    </div>
   );
 }
 

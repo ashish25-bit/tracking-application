@@ -1,0 +1,24 @@
+@font-face {
+  font-family: Archivo-Regular;
+  src: url('./fonts/Archivo-Regular.ttf');
+}
+
+@font-face {
+  font-family: Archivo-Black;
+  src: url('./fonts/Archivo-Black.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Light;
+  src: url('./fonts/Montserrat-Light.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url('./fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url('./fonts/Montserrat-Bold.ttf');
+}
