@@ -1,0 +1,66 @@
+.dd-wrapper {
+  user-select: none;
+  position: relative;
+}
+
+.dd-wrapper .dd-header {
+  background-color: white;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  cursor: pointer;
+  padding: 15px 20px;
+  border: 1px solid #bdbdbd;
+}
+
+.dd-wrapper .dd-header.open {
+  color: #bdbdbd;
+}
+
+.dd-wrapper .dd-header_title {
+  font-weight: bold;
+}
+
+.dd-wrapper .dd-list {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 2147483647;
+}
+
+.dd-wrapper .dd-list li:first-of-type > button {
+  border-top: 1px solid #ccc;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.dd-wrapper .dd-list li:last-of-type > button {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.dd-wrapper .dd-list li button {
+  width: 100%;
+  background-color: white;
+  font-size: 16px;
+  padding: 15px 20px 15px 20px;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-top: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-wrapper .dd-list li button:hover,
+.dd-wrapper .dd-list li button:focus {
+  cursor: pointer;
+  font-weight: bold;
+  background-color: rgb(230, 230, 230);
+}
