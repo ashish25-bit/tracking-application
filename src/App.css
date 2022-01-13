@@ -51,8 +51,14 @@ button {
   border: none;
 }
 
+input[type='checkbox'],
+input[type='submit'],
+input[type='button'],
 button {
   cursor: pointer;
+}
+
+button {
   user-select: none;
   background: none;
 }
