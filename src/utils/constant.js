@@ -1,0 +1,1 @@
+export const DEFAULT_CATEGORY = ['daily', 'important', 'timed', 'uncategorized'];
