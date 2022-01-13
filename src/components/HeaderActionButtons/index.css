@@ -1,0 +1,21 @@
+.header-button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.header-button-container button {
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.5s ease;
+}
+
+.header-button-container button:nth-child(1)  {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 10px 25px;
+  justify-self: start;
+}
+
+.header-button-container button:nth-child(2) {
+  justify-self: end;
+}

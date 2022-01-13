@@ -1,0 +1,11 @@
+header {
+  text-transform: uppercase;
+  font-family: Archivo-Regular;
+  font-size: 30px;
+  margin: 25px 0;
+}
+
+header span {
+  font-family: Archivo-Black;
+  color: var(--primary-color);
+}
