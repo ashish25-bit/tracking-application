@@ -19,6 +19,11 @@ dd {
   margin: 0;
 }
 
+ul,
+ol {
+  list-style-type: none;
+}
+
 html:focus-within {
   scroll-behavior: smooth;
 }
@@ -54,6 +59,7 @@ button {
 input[type='checkbox'],
 input[type='submit'],
 input[type='button'],
+*[role='button'],
 button {
   cursor: pointer;
 }
@@ -93,6 +99,6 @@ body {
 
 :root {
   --primary-color: #4864C7;
-  --z-index-more-container: 99999999;
+  --z-index-modal-container: 99999999;
   --category-heading-color: #6C6C6C;
 }

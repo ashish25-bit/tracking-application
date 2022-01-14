@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 
 function Todo({ data }) {
   return (
-    <div>
+    <div style={{ transition: "0.4s" }}>
       {data.map((item, index) => {
         return <TodoItem key={index} text={item} />;
       })}

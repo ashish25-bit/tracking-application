@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./index.css";
 import PropTypes from "prop-types";
 
-function Dropdown({ title = "Select item", items = [], setSelectedData }) {
+function Dropdown({ title = "Select item", items = [], setSelectedData, defaultSelectedIndex = null }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const ref = useRef();
@@ -18,6 +18,15 @@ function Dropdown({ title = "Select item", items = [], setSelectedData }) {
     return () => document.removeEventListener("mousedown", checkIfClickedOutside);
 
   }, [isOpen]);
+
+  useEffect(() => {
+    if (defaultSelectedIndex !== null && defaultSelectedIndex >= items.length)
+      defaultSelectedIndex = null;
+    else {
+      setSelectedIndex(defaultSelectedIndex);
+      setSelectedData(items[defaultSelectedIndex]);
+    }
+  }, [defaultSelectedIndex])
 
   function handleOnClick(index) {
     if (index !== selectedIndex) {
@@ -68,4 +77,5 @@ Dropdown.propTypes = {
   title: PropTypes.string,
   items: PropTypes.array,
   setSelectedData: PropTypes.func.isRequired,
+  defaultSelectedIndex: PropTypes.number,
 };
