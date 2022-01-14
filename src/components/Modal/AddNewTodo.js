@@ -38,21 +38,23 @@ function AddNewTodo({ setIsModalOpen }) {
   }
 
   return (
-    <div className="modal-container">
-      <div className="add-new-todo-container">
-        <Dropdown
-          title="Select Category"
-          items={categories}
-          setSelectedData={setSelectedCategory}
-          defaultSelectedIndex={0}
-        />
-        <input type="text" placeholder="Enter the todo message" ref={inputTodoRef} />
-        <div className="btns">
-          <button onClick={handleAddTodo}>Ok</button>
-          <button onClick={() => setIsModalOpen(null)}>Cancel</button>
+    <FocusTrap>
+      <div className="modal-container">
+        <div className="add-new-todo-container">
+          <Dropdown
+            title="Select Category"
+            items={categories}
+            setSelectedData={setSelectedCategory}
+            defaultSelectedIndex={0}
+          />
+          <input type="text" placeholder="Enter the todo message" ref={inputTodoRef} />
+          <div className="btns">
+            <button onClick={handleAddTodo}>Ok</button>
+            <button onClick={() => setIsModalOpen(null)}>Cancel</button>
+          </div>
         </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 }
 

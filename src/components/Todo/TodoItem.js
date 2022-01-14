@@ -1,6 +1,7 @@
 import "./index.css";
 import PropTypes from "prop-types";
 import { ReactComponent as MoreLogo } from "../../icons/more.svg";
+import { useRef, useEffect, useCallback } from "react";
 
 function TodoItem({
   text,
@@ -10,6 +11,22 @@ function TodoItem({
   menuOpenIndex,
   setMenuOpenIndex,
 }) {
+  const moreContainerRef = useRef();
+
+  const checkIfClickedOutside = useCallback((e) => {
+    if (
+      index === menuOpenIndex &&
+      moreContainerRef.current &&
+      !moreContainerRef.current.contains(e.target)
+    ) setMenuOpenIndex(-1);
+  }, [index, menuOpenIndex, setMenuOpenIndex]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => document.removeEventListener("mousedown", checkIfClickedOutside);
+  }, [checkIfClickedOutside]);
+
   function handleOnKeyUpCheckbox(e) {
     if (e.keyCode !== 13) return;
 
@@ -39,7 +56,7 @@ function TodoItem({
       >
         {text}
       </div>
-      <div>
+      <div ref={moreContainerRef}>
         <button onClick={openMoreContainer}>
           <MoreLogo />
         </button>

@@ -17,7 +17,7 @@
   text-transform: uppercase;
 }
 
-.category .header div[role=button] {
+.category .header button {
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -28,6 +28,6 @@
   margin-top: 10px;
 }
 
-.category .header div[role=button].closed {
+.category .header button.closed {
   transform: rotate(180deg);
 }

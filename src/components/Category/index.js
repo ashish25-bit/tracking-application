@@ -7,12 +7,12 @@ function Category() {
   const { categories, todos } = useTodo();
 
   async function toggleCategory(e) {
-    const siblingElement = e.target.parentElement?.nextSibling;
+    const todoContainer = e.target.parentElement?.nextSibling;
 
-    if (!siblingElement)
+    if (!todoContainer)
       return;
 
-    const elem = siblingElement?.childNodes[0];
+    const elem = todoContainer?.childNodes[0];
 
     if (!elem)
       return;
@@ -20,16 +20,17 @@ function Category() {
     e.target.classList.toggle("closed");
 
     if (e.target.classList.contains('closed')) {
-      siblingElement.style.overflow = 'hidden';
-      elem.style.transform = `translateY(-${elem.offsetHeight + 10}px)`;
+      elem.style.opacity = `0`;
       await sleep(400);
+
       elem.style.display = 'none';
     }
     else {
       elem.style.display = 'block';
       await sleep(100);
-      elem.style.transform = 'translateY(0)';
-      siblingElement.style.removeProperty('overflow');
+
+      elem.style.opacity = '1';
+      await sleep(400);
     }
   }
 
@@ -39,7 +40,7 @@ function Category() {
         <div key={index} className='category'>
           <div className='header'>
             <h2>{category}</h2>
-            { todos[category].length > 0 && <div role='button' onClick={toggleCategory}></div> }
+            { todos[category].length > 0 && <button onClick={toggleCategory}></button> }
           </div>
           <div className='todo-container'>
             <Todo name={category} data={todos[category]} />
