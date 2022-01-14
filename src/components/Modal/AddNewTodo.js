@@ -31,7 +31,7 @@ function AddNewTodo({ setIsModalOpen }) {
     }
 
     const temp = todos[selectedCategory];
-    temp.push(inputTodoRef?.current?.value);
+    temp.push({text: inputTodoRef?.current?.value, completed: false});
 
     setTodos(prevState => ( {...prevState, [selectedCategory]: temp } ));
     setIsModalOpen(null);
