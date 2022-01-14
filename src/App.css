@@ -2,6 +2,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body,
@@ -100,5 +102,6 @@ body {
 :root {
   --primary-color: #4864C7;
   --z-index-modal-container: 99999999;
+  --z-index-todo-more-container: 100;
   --category-heading-color: #6C6C6C;
 }

@@ -8,14 +8,11 @@
   user-select: none;
 }
 
-.todo-item div:nth-child(3) {
-  justify-self: right;
-}
-
 .todo-item div:nth-child(2).completed {
   color: #aaaaaa;
 }
 
+/* CHECKBOX STYLING */
 .todo-item div:nth-child(1) {
   position: relative;
 }
@@ -59,4 +56,23 @@
 .todo-item input[type="checkbox"]:hover {
   box-shadow: 0 0 0 3px #ebebeb;
   border-color: #8c8c8c;
+}
+
+
+/* MORE CONTAINER STYLING */
+.todo-item div:nth-child(3) {
+  position: relative;
+  justify-self: right;
+}
+
+.todo-item .todo-item-more-container {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  z-index: var(--z-index-todo-more-container);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 3px;
 }

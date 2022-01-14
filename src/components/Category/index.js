@@ -7,7 +7,12 @@ function Category() {
   const { categories, todos } = useTodo();
 
   async function toggleCategory(e) {
-    const elem = e.target.parentElement?.nextSibling?.childNodes[0];
+    const siblingElement = e.target.parentElement?.nextSibling;
+
+    if (!siblingElement)
+      return;
+
+    const elem = siblingElement?.childNodes[0];
 
     if (!elem)
       return;
@@ -15,6 +20,7 @@ function Category() {
     e.target.classList.toggle("closed");
 
     if (e.target.classList.contains('closed')) {
+      siblingElement.style.overflow = 'hidden';
       elem.style.transform = `translateY(-${elem.offsetHeight + 10}px)`;
       await sleep(400);
       elem.style.display = 'none';
@@ -23,6 +29,7 @@ function Category() {
       elem.style.display = 'block';
       await sleep(100);
       elem.style.transform = 'translateY(0)';
+      siblingElement.style.removeProperty('overflow');
     }
   }
 

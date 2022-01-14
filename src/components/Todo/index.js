@@ -2,9 +2,11 @@ import "./index.css";
 import PropTypes from "prop-types";
 import TodoItem from "./TodoItem";
 import { useTodo } from '../../contexts/TodoContext';
+import { useState } from "react";
 
 function Todo({ name, data }) {
   const { setTodos } = useTodo();
+  const [menuOpenIndex, setMenuOpenIndex] = useState(-1);
 
   function changeCompletedStatus(index) {
     if (index < 0 || index >= data.length)
@@ -24,6 +26,8 @@ function Todo({ name, data }) {
             completed={item.completed}
             index={index}
             changeCompletedStatus={changeCompletedStatus}
+            setMenuOpenIndex={setMenuOpenIndex}
+            menuOpenIndex={menuOpenIndex}
           />
         );
       })}
