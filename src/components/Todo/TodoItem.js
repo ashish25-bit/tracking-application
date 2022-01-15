@@ -10,6 +10,7 @@ function TodoItem({
   changeCompletedStatus,
   menuOpenIndex,
   setMenuOpenIndex,
+  deleteTodo
 }) {
   const moreContainerRef = useRef();
 
@@ -61,7 +62,10 @@ function TodoItem({
           <MoreLogo />
         </button>
         {menuOpenIndex === index && (
-          <div className="todo-item-more-container"></div>
+          <div className="todo-item-more-container">
+            <button>Edit todo</button>
+            <button onClick={() => deleteTodo(index)}>Delete todo</button>
+          </div>
         )}
       </div>
     </div>
@@ -75,6 +79,7 @@ TodoItem.propTypes = {
   text: PropTypes.string.isRequired,
   menuOpenIndex: PropTypes.number.isRequired,
   setMenuOpenIndex: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
 };
 
 export default TodoItem;

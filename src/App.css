@@ -104,4 +104,5 @@ body {
   --z-index-modal-container: 99999999;
   --z-index-todo-more-container: 100;
   --category-heading-color: #6C6C6C;
+  --button-cancel-color: #E13535;
 }

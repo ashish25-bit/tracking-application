@@ -16,6 +16,19 @@ function Todo({ name, data }) {
     setTodos(prevState => ({ ...prevState, [name]:data }))
   }
 
+  function deleteTodo(index) {
+    setMenuOpenIndex(-1);
+
+    if (!(window.confirm("Press ok if you want to delete the todo")))
+      return;
+
+    if (index < 0 || index >= data.length)
+      return;
+
+    let newData = data.filter((_, dataIndex) => dataIndex !== index);
+    setTodos(prevState => ( {...prevState, [name]: newData } ));
+  }
+
   return (
     <div style={{ transition: "0.4s" }}>
       {data.map((item, index) => {
@@ -28,6 +41,7 @@ function Todo({ name, data }) {
             changeCompletedStatus={changeCompletedStatus}
             setMenuOpenIndex={setMenuOpenIndex}
             menuOpenIndex={menuOpenIndex}
+            deleteTodo={deleteTodo}
           />
         );
       })}
