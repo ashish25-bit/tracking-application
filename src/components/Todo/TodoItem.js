@@ -41,6 +41,25 @@ function TodoItem({
       setMenuOpenIndex(index);
   }
 
+  function onKeyDownHandler(e) {
+    if (e.key === "Escape") {
+      setMenuOpenIndex(-1);
+      return;
+    }
+
+    if (e.key !== "Tab") return;
+
+    const focusableElements = moreContainerRef?.current.querySelectorAll('button');
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (
+      (!e.shiftKey && document.activeElement === lastElement) ||
+      (e.shiftKey && document.activeElement === firstElement)
+    )
+      setMenuOpenIndex(-1);
+  }
+
   return (
     <div className="todo-item">
       <div>
@@ -57,7 +76,9 @@ function TodoItem({
       >
         {text}
       </div>
-      <div ref={moreContainerRef}>
+      <div ref={moreContainerRef}
+        onKeyDown={menuOpenIndex === index ? onKeyDownHandler : null}
+      >
         <button onClick={openMoreContainer}>
           <MoreLogo />
         </button>
