@@ -1,12 +1,14 @@
 import "./index.css";
 import PropTypes from "prop-types";
 import TodoItem from "./TodoItem";
-import { useTodo } from '../../contexts/TodoContext';
+import { useTodo } from "../../contexts/TodoContext";
 import { useState } from "react";
+import NewInputTodo from "./NewInputTodo";
 
 function Todo({ name, data }) {
   const { setTodos } = useTodo();
   const [menuOpenIndex, setMenuOpenIndex] = useState(-1);
+  const [newInputIndex, setNewInputIndex] = useState(-1);
 
   function changeCompletedStatus(index) {
     if (index < 0 || index >= data.length)
@@ -29,6 +31,17 @@ function Todo({ name, data }) {
     setTodos(prevState => ( {...prevState, [name]: newData } ));
   }
 
+  /**
+   *
+   * @param {number} insertIndex new index
+   * @param {string} text the todo text
+   */
+  function insertNewTodo(insertIndex, text) {
+    data.splice(insertIndex, 0, { text, completed: false });
+    setTodos((prevState) => ({ ...prevState, [name]: data }));
+    setNewInputIndex(-1);
+  }
+
   return (
     <div style={{ transition: "0.4s" }}>
       {data.map((item, index) => {
@@ -42,9 +55,20 @@ function Todo({ name, data }) {
             setMenuOpenIndex={setMenuOpenIndex}
             menuOpenIndex={menuOpenIndex}
             deleteTodo={deleteTodo}
+            newInputIndex={newInputIndex}
+            setNewInputIndex={setNewInputIndex}
+            insertNewTodo={insertNewTodo}
           />
         );
       })}
+
+      {newInputIndex === data.length && (
+        <NewInputTodo
+          index={data.length}
+          insertNewTodo={insertNewTodo}
+          setNewInputIndex={setNewInputIndex}
+        />
+      )}
     </div>
   );
 }

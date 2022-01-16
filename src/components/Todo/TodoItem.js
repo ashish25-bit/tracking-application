@@ -2,6 +2,7 @@ import "./index.css";
 import PropTypes from "prop-types";
 import { ReactComponent as MoreLogo } from "../../icons/more.svg";
 import { useRef, useEffect, useCallback } from "react";
+import NewInputTodo from "./NewInputTodo";
 
 function TodoItem({
   text,
@@ -10,22 +11,30 @@ function TodoItem({
   changeCompletedStatus,
   menuOpenIndex,
   setMenuOpenIndex,
-  deleteTodo
+  deleteTodo,
+  setNewInputIndex,
+  newInputIndex,
+  insertNewTodo,
 }) {
   const moreContainerRef = useRef();
 
-  const checkIfClickedOutside = useCallback((e) => {
-    if (
-      index === menuOpenIndex &&
-      moreContainerRef.current &&
-      !moreContainerRef.current.contains(e.target)
-    ) setMenuOpenIndex(-1);
-  }, [index, menuOpenIndex, setMenuOpenIndex]);
+  const checkIfClickedOutside = useCallback(
+    (e) => {
+      if (
+        index === menuOpenIndex &&
+        moreContainerRef.current &&
+        !moreContainerRef.current.contains(e.target)
+      )
+        setMenuOpenIndex(-1);
+    },
+    [index, menuOpenIndex, setMenuOpenIndex]
+  );
 
   useEffect(() => {
     document.addEventListener("mousedown", checkIfClickedOutside);
 
-    return () => document.removeEventListener("mousedown", checkIfClickedOutside);
+    return () =>
+      document.removeEventListener("mousedown", checkIfClickedOutside);
   }, [checkIfClickedOutside]);
 
   function handleOnKeyUpCheckbox(e) {
@@ -35,10 +44,8 @@ function TodoItem({
   }
 
   function openMoreContainer() {
-    if (index === menuOpenIndex)
-      setMenuOpenIndex(-1);
-    else
-      setMenuOpenIndex(index);
+    if (index === menuOpenIndex) setMenuOpenIndex(-1);
+    else setMenuOpenIndex(index);
   }
 
   function onKeyDownHandler(e) {
@@ -49,7 +56,8 @@ function TodoItem({
 
     if (e.key !== "Tab") return;
 
-    const focusableElements = moreContainerRef?.current.querySelectorAll('button');
+    const focusableElements =
+      moreContainerRef?.current.querySelectorAll("button");
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
 
@@ -61,35 +69,61 @@ function TodoItem({
   }
 
   return (
-    <div className="todo-item">
-      <div>
-        <input
-          type="checkbox"
-          onChange={() => changeCompletedStatus(index)}
-          onKeyUp={handleOnKeyUpCheckbox}
-          checked={completed}
+    <>
+      {newInputIndex === index && (
+        <NewInputTodo
+          index={index}
+          insertNewTodo={insertNewTodo}
+          setNewInputIndex={setNewInputIndex}
         />
+      )}
+      <div className="todo-item">
+        <div>
+          <input
+            type="checkbox"
+            onChange={() => changeCompletedStatus(index)}
+            onKeyUp={handleOnKeyUpCheckbox}
+            checked={completed}
+          />
+        </div>
+        <div
+          className={completed ? "completed" : null}
+          onClick={() => changeCompletedStatus(index)}
+        >
+          {text}
+        </div>
+        <div
+          ref={moreContainerRef}
+          onKeyDown={menuOpenIndex === index ? onKeyDownHandler : null}
+        >
+          <button onClick={openMoreContainer}>
+            <MoreLogo />
+          </button>
+          {menuOpenIndex === index && (
+            <div className="todo-item-more-container">
+              <button>Edit todo</button>
+              <button
+                onClick={() => {
+                  setNewInputIndex(index);
+                  setMenuOpenIndex(-1);
+                }}
+              >
+                Add row above this ⬆
+              </button>
+              <button
+                onClick={() => {
+                  setNewInputIndex(index + 1);
+                  setMenuOpenIndex(-1);
+                }}
+              >
+                Add row below this ⬇
+              </button>
+              <button onClick={() => deleteTodo(index)}>Delete todo</button>
+            </div>
+          )}
+        </div>
       </div>
-      <div
-        className={completed ? "completed" : null}
-        onClick={() => changeCompletedStatus(index)}
-      >
-        {text}
-      </div>
-      <div ref={moreContainerRef}
-        onKeyDown={menuOpenIndex === index ? onKeyDownHandler : null}
-      >
-        <button onClick={openMoreContainer}>
-          <MoreLogo />
-        </button>
-        {menuOpenIndex === index && (
-          <div className="todo-item-more-container">
-            <button>Edit todo</button>
-            <button onClick={() => deleteTodo(index)}>Delete todo</button>
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -101,6 +135,9 @@ TodoItem.propTypes = {
   menuOpenIndex: PropTypes.number.isRequired,
   setMenuOpenIndex: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
+  setNewInputIndex: PropTypes.func.isRequired,
+  newInputIndex: PropTypes.number.isRequired,
+  insertNewTodo: PropTypes.func.isRequired,
 };
 
 export default TodoItem;
