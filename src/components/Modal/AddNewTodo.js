@@ -11,7 +11,7 @@ function AddNewTodo({ setIsModalOpen }) {
   useEffect(() => {
     function handleDocumentClick(e) {
       if (e.target.classList.contains("modal-container")) {
-        setIsModalOpen(null);
+        setIsModalOpen(0);
         document.body.removeAttribute("style");
       }
     }
@@ -34,7 +34,7 @@ function AddNewTodo({ setIsModalOpen }) {
     temp.push({text: inputTodoRef?.current?.value, completed: false});
 
     setTodos(prevState => ( {...prevState, [selectedCategory]: temp } ));
-    setIsModalOpen(null);
+    setIsModalOpen(0);
   }
 
   return (
@@ -50,7 +50,7 @@ function AddNewTodo({ setIsModalOpen }) {
           <input type="text" placeholder="Enter the todo message" ref={inputTodoRef} />
           <div className="btns">
             <button onClick={handleAddTodo}>Ok</button>
-            <button onClick={() => setIsModalOpen(null)}>Cancel</button>
+            <button onClick={() => setIsModalOpen(0)}>Cancel</button>
           </div>
         </div>
       </div>

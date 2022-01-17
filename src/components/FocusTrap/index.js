@@ -14,6 +14,11 @@ function FocusTrap({ children }) {
       "a[href], button:not([disabled]), textarea, input, select, *[role=button]"
     );
 
+    if (focusableModalElements.length === 0) {
+      e.preventDefault()
+      return;
+    }
+
     const firstElement = focusableModalElements[0];
     const lastElement =
       focusableModalElements[focusableModalElements.length - 1];

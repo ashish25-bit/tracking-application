@@ -3,9 +3,10 @@ import './index.css';
 import {ReactComponent as ArrangeBtn} from '../../icons/arrange-category.svg';
 import AddNewTodo from '../Modal/AddNewTodo';
 import { Fragment } from 'react/cjs/react.production.min';
+import EditCategoryModal from '../Modal/EditCategoryModal';
 
 function HeaderActionButtons() {
-  const [isModalOpen, setIsModalOpen] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(0);
 
   function addNewTodo() {
     document.body.style.overflowY = 'hidden';
@@ -13,8 +14,8 @@ function HeaderActionButtons() {
   }
 
   function editCategory() {
-    console.log('edit category')
-    setIsModalOpen(prevState => { return !prevState });
+    document.body.style.overflowY = 'hidden';
+    setIsModalOpen(2);
   }
 
   return (
@@ -28,7 +29,7 @@ function HeaderActionButtons() {
       </div>
 
       { isModalOpen === 1 && <AddNewTodo setIsModalOpen={setIsModalOpen} /> }
-      { isModalOpen === 2 && <div>Edit categories modal</div> }
+      { isModalOpen === 2 && <EditCategoryModal setIsModalOpen={setIsModalOpen} /> }
     </Fragment>
   )
 }
