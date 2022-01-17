@@ -1,7 +1,7 @@
 import "./index.css";
 import PropTypes from "prop-types";
 import { ReactComponent as MoreLogo } from "../../icons/more.svg";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import NewInputTodo from "./NewInputTodo";
 
 function TodoItem({
@@ -15,8 +15,11 @@ function TodoItem({
   setNewInputIndex,
   newInputIndex,
   insertNewTodo,
+  editTodoText,
 }) {
   const moreContainerRef = useRef();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCurrentTodoValue, setEditCurrentTodoValue] = useState(text);
 
   const checkIfClickedOutside = useCallback(
     (e) => {
@@ -48,7 +51,7 @@ function TodoItem({
     else setMenuOpenIndex(index);
   }
 
-  function onKeyDownHandler(e) {
+  function keyDownHandle_adding_new_todo(e) {
     if (e.key === "Escape") {
       setMenuOpenIndex(-1);
       return;
@@ -66,6 +69,24 @@ function TodoItem({
       (e.shiftKey && document.activeElement === firstElement)
     )
       setMenuOpenIndex(-1);
+  }
+
+  function onClick_adding_new_todo(value) {
+    setIsEditing(false);
+    setNewInputIndex(value);
+    setMenuOpenIndex(-1);
+  }
+
+  function editCurrentTodo_key_handler(e) {
+    if (e.code === "Escape") {
+      setIsEditing(false);
+      return;
+    }
+
+    if (e.code === "Enter") {
+      setIsEditing(false);
+      editTodoText(index, editCurrentTodoValue);
+    }
   }
 
   return (
@@ -86,39 +107,58 @@ function TodoItem({
             checked={completed}
           />
         </div>
-        <div
-          className={completed ? "completed" : null}
-          onClick={() => changeCompletedStatus(index)}
-        >
-          {text}
-        </div>
+        {!isEditing ? (
+          <div
+            className={completed ? "completed" : null}
+            onClick={() => changeCompletedStatus(index)}
+          >
+            {text}
+          </div>
+        ) : (
+          <input
+            type={"text"}
+            className="todo-edit-input"
+            value={editCurrentTodoValue}
+            onChange={(e) => setEditCurrentTodoValue(e.target.value)}
+            onKeyUp={editCurrentTodo_key_handler}
+          />
+        )}
         <div
           ref={moreContainerRef}
-          onKeyDown={menuOpenIndex === index ? onKeyDownHandler : null}
+          onKeyDown={
+            menuOpenIndex === index ? keyDownHandle_adding_new_todo : null
+          }
         >
           <button onClick={openMoreContainer}>
             <MoreLogo />
           </button>
           {menuOpenIndex === index && (
             <div className="todo-item-more-container">
-              <button>Edit todo</button>
-              <button
-                onClick={() => {
-                  setNewInputIndex(index);
-                  setMenuOpenIndex(-1);
-                }}
-              >
+              {!isEditing && (
+                <button
+                  onClick={() => {
+                    setEditCurrentTodoValue(text);
+                    setMenuOpenIndex(-1);
+                    setIsEditing(true);
+                  }}
+                >
+                  Edit todo
+                </button>
+              )}
+              <button onClick={() => onClick_adding_new_todo(index)}>
                 Add row above this ⬆
               </button>
-              <button
-                onClick={() => {
-                  setNewInputIndex(index + 1);
-                  setMenuOpenIndex(-1);
-                }}
-              >
+              <button onClick={() => onClick_adding_new_todo(index + 1)}>
                 Add row below this ⬇
               </button>
-              <button onClick={() => deleteTodo(index)}>Delete todo</button>
+              <button
+                onClick={() => {
+                  setIsEditing(false);
+                  deleteTodo(index);
+                }}
+              >
+                Delete todo
+              </button>
             </div>
           )}
         </div>
@@ -138,6 +178,7 @@ TodoItem.propTypes = {
   setNewInputIndex: PropTypes.func.isRequired,
   newInputIndex: PropTypes.number.isRequired,
   insertNewTodo: PropTypes.func.isRequired,
+  editTodoText: PropTypes.func.isRequired,
 };
 
 export default TodoItem;

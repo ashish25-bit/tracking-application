@@ -104,11 +104,16 @@
   background-color: var(--button-cancel-color);
 }
 
-/* NEW TODO INPUT */
-.todo-container .new-todo-input {
+/* NEW TODO INPUT  */
+.todo-container .new-todo-input,
+.todo-container .todo-edit-input {
   width: 100%;
   border: 1px solid #c5c5c5;
   padding: 8px 10px;
+}
+
+.todo-container .todo-edit-input {
+  margin-bottom: 15px;
 }
 
 .todo-container div:nth-child(1) .new-todo-input {

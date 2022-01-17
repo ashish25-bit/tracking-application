@@ -42,6 +42,12 @@ function Todo({ name, data }) {
     setNewInputIndex(-1);
   }
 
+  function editTodoText(index, text) {
+    const newData = [...data];
+    newData[index].text = text;
+    setTodos((prevState) => ({ ...prevState, [name]: newData }));
+  }
+
   return (
     <div style={{ transition: "0.4s" }}>
       {data.map((item, index) => {
@@ -58,6 +64,7 @@ function Todo({ name, data }) {
             newInputIndex={newInputIndex}
             setNewInputIndex={setNewInputIndex}
             insertNewTodo={insertNewTodo}
+            editTodoText={editTodoText}
           />
         );
       })}
