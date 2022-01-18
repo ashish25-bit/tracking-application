@@ -22,6 +22,10 @@
   overflow-y: auto;
 }
 
+.add-new-todo-container {
+  overflow: visible;
+}
+
 .add-new-todo-container input {
   width: 100%;
   border: 1px solid #ccc;
@@ -105,4 +109,18 @@
   height: 3px;
   background-color: #fff;
   border-radius: 5px;
+}
+
+.edit-category-modal .rearrange-category .draggable-element {
+  margin: 10px 0;
+  background-color: #e9e9e9;
+  padding: 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.edit-category-modal .rearrange-category .draggable-element.drag-start,
+.edit-category-modal .rearrange-category .draggable-element.dragging {
+  background-color: #a3a3a3;
 }

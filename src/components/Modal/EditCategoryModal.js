@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 import FocusTrap from "../FocusTrap";
 import { useTodo } from "../../contexts/TodoContext";
 import { DEFAULT_CATEGORY } from "../../utils/constant";
+import DraggableList from "../DraggableList";
 
 function EditCategoryModal({ setIsModalOpen }) {
   const inputRef = useRef();
@@ -18,9 +19,9 @@ function EditCategoryModal({ setIsModalOpen }) {
   );
 
   useEffect(() => {
-    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener("dblclick", handleDocumentClick);
 
-    return () => document.removeEventListener("click", handleDocumentClick);
+    return () => document.removeEventListener("dblclick", handleDocumentClick);
   }, [handleDocumentClick]);
 
   const { categories, setCategories, setTodos } = useTodo();
@@ -36,19 +37,45 @@ function EditCategoryModal({ setIsModalOpen }) {
     value = value.toLowerCase();
     setTodos((prevState) => ({ ...prevState, [value]: [] }));
     setCategories((prevState) => [...prevState, value]);
-    setIsModalOpen(0);
+    inputRef?.current?.focus();
   }
 
   function deleteCategory(index, key) {
-    if (!window.confirm('Press ok to delete category'))
-      return;
+    if (!window.confirm("Press ok to delete category")) return;
 
-    setTodos(prevState => {
+    setTodos((prevState) => {
       const { [key]: item, ...rest } = prevState;
       return rest;
     });
-    setCategories(prevState => prevState.filter((_, idx) => idx !== index));
-    setIsModalOpen(0);
+    setCategories((prevState) => prevState.filter((_, idx) => idx !== index));
+  }
+
+  function reorderCallback(startIndex, endIndex) {
+    const data = [...categories];
+
+    if (
+      startIndex < 0 ||
+      endIndex < 0 ||
+      startIndex >= data.length ||
+      endIndex >= data.length
+    )
+      return;
+
+    if (startIndex < endIndex) {
+      const startElem = data[startIndex];
+      for (let i = startIndex + 1; i <= endIndex; i++)
+        data[i - 1] = data[i];
+      data[endIndex] = startElem;
+    }
+
+    else if (startIndex > endIndex) {
+      const startElem = data[startIndex];
+      for (let i = startIndex - 1; i >= endIndex; i--)
+        data[i + 1] = data[i];
+      data[endIndex] = startElem;
+    }
+
+    setCategories(data);
   }
 
   return (
@@ -70,13 +97,26 @@ function EditCategoryModal({ setIsModalOpen }) {
                 DEFAULT_CATEGORY.includes(item) === false && (
                   <div key={index}>
                     <p>{item}</p>
-                    <button onClick={() => deleteCategory(index, item)}></button>
+                    <button
+                      onClick={() => deleteCategory(index, item)}
+                    ></button>
                   </div>
                 )
             )}
           </div>
           <div className="rearrange-category">
             <h2>rearrange Category</h2>
+            <DraggableList
+              callBack={reorderCallback}
+              onDragStartClass="drag-start"
+              onDragOverClass="dragging"
+            >
+              {categories.map((item, index) => (
+                <div className="draggable-element" key={index} draggable>
+                  {item}
+                </div>
+              ))}
+            </DraggableList>
           </div>
         </div>
       </div>
