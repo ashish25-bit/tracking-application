@@ -43,7 +43,7 @@ function Category() {
             { todos[category].length > 0 && <button onClick={toggleCategory}></button> }
           </div>
           <div className='todo-container'>
-            <Todo name={category} data={todos[category]} />
+            {todos[category].length > 0 && <Todo name={category} data={todos[category]} />}
           </div>
         </div>
       )

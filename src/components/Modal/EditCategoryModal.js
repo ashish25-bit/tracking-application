@@ -38,6 +38,7 @@ function EditCategoryModal({ setIsModalOpen }) {
     setTodos((prevState) => ({ ...prevState, [value]: [] }));
     setCategories((prevState) => [...prevState, value]);
     inputRef?.current?.focus();
+    inputRef?.current?.select();
   }
 
   function deleteCategory(index, key) {
